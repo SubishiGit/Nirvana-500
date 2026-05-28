@@ -647,7 +647,7 @@ export default function MasterPlan({ mapData, sheetRows = [], sheetCaps }) {
             }}
           >
             <h2 style={{ fontSize: instructionsUi.title, fontWeight: 700, marginBottom: 16, color: THEME_ACCENT }}>
-              Welcome to Nirvana 250
+              Welcome to Subishi Nirvana 500
             </h2>
             
             <div style={{ fontSize: instructionsUi.body, lineHeight: 1.6, marginBottom: 24, color: '#D1D5DB' }}>
