@@ -41,8 +41,8 @@ const SECTION_HEADERS = [
   "NW Corner",
   "SE Corner",
   "SW Corner",
-  "Park Facing East",
   "Park Facing West",
+  "Park Facing East",
 ];
 
 const ZERO_CAPS = [0, 0, 0, 0, 0, 0, 0, 0];
