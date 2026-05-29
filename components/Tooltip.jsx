@@ -346,10 +346,15 @@ export function Tooltip({
             {(() => {
               const facing = String(activePlot.sheetData?.facing || "").trim().toLowerCase();
               const FLOOR_PLAN_URLS = {
-                east: 'https://drive.google.com/file/d/1a8UyXkmyWtEdAHsQJUd7X1ZsWKpdkz0V/view?usp=sharing',
-                west: 'https://drive.google.com/file/d/1YPplIgu5-3bN-F0VcpFJOrZt0T9PA0uJ/view?usp=sharing',
+                east: 'https://drive.google.com/file/d/16m5LTSeN2MuMwhSc22tpJkM2AsOqthCa/view?usp=sharing',
+                west: 'https://drive.google.com/file/d/1Q7zZnkQX-RIu9a4vCLbxMe-YAGHQWg9P/view?usp=sharing',
               };
-              const url = FLOOR_PLAN_URLS[facing];
+              // Match east/west by direction tokens so corners (NE/SE, NW/SW)
+              // and "Park Facing East/West" all map to the correct floor plan.
+              let direction = null;
+              if (/\b(east|ne|se)\b/.test(facing)) direction = "east";
+              else if (/\b(west|nw|sw)\b/.test(facing)) direction = "west";
+              const url = direction ? FLOOR_PLAN_URLS[direction] : null;
               if (!url) return null;
               return (
                 <button
