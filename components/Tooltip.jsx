@@ -344,16 +344,32 @@ export function Tooltip({
             
             {/* View Floor Plans Button - shown only when a URL exists for that facing */}
             {(() => {
-              const facing = String(activePlot.sheetData?.facing || "").trim().toLowerCase();
               const FLOOR_PLAN_URLS = {
                 east: 'https://drive.google.com/file/d/16m5LTSeN2MuMwhSc22tpJkM2AsOqthCa/view?usp=sharing',
                 west: 'https://drive.google.com/file/d/1Q7zZnkQX-RIu9a4vCLbxMe-YAGHQWg9P/view?usp=sharing',
               };
-              // Match east/west by direction tokens so corners (NE/SE, NW/SW)
-              // and "Park Facing East/West" all map to the correct floor plan.
+              // Explicit mapping. Specific labels (e.g. "Standard East", "NE Corner",
+              // "Park Facing East") come from the sheet's type column (D); plain
+              // "East"/"West" come from the facing column (C). We check both.
+              const EAST_LABELS = new Set([
+                'ne corner',
+                'se corner',
+                'standard east',
+                'park facing east',
+                'east',
+              ]);
+              const WEST_LABELS = new Set([
+                'nw corner',
+                'sw corner',
+                'standard west',
+                'park facing west',
+                'west',
+              ]);
+              const facing = String(activePlot.sheetData?.facing || "").trim().toLowerCase();
+              const type = String(activePlot.sheetData?.type || "").trim().toLowerCase();
               let direction = null;
-              if (/\b(east|ne|se)\b/.test(facing)) direction = "east";
-              else if (/\b(west|nw|sw)\b/.test(facing)) direction = "west";
+              if (EAST_LABELS.has(type) || EAST_LABELS.has(facing)) direction = "east";
+              else if (WEST_LABELS.has(type) || WEST_LABELS.has(facing)) direction = "west";
               const url = direction ? FLOOR_PLAN_URLS[direction] : null;
               if (!url) return null;
               return (
